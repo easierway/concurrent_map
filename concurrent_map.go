@@ -2,14 +2,13 @@ package concurrent_map
 
 import (
 	"sync"
-	"unsafe"
 )
 
 // ConcurrentMap is a thread safe map collection with better performance.
 // The backend map enties are separated into the different partitions.
 // Threads can access the different partitions safely without lock.
 type ConcurrentMap struct {
-	partitions    []unsafe.Pointer
+	partitions    []*innerMap
 	numOfBlockets int
 }
 
@@ -55,9 +54,9 @@ func (im *innerMap) del(key Partitionable) {
 
 // CreateConcurrentMap is to create a ConcurrentMap with the setting number of the partitions
 func CreateConcurrentMap(numOfPartitions int) *ConcurrentMap {
-	var partitions []unsafe.Pointer
+	var partitions []*innerMap
 	for i := 0; i < numOfPartitions; i++ {
-		partitions = append(partitions, unsafe.Pointer(createInnerMap()))
+		partitions = append(partitions, createInnerMap())
 	}
 	return &ConcurrentMap{partitions, numOfPartitions}
 }
