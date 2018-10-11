@@ -64,7 +64,7 @@ func hash(str string) uint32 {
 }
 
 // PartitionID is created by string's hash
-func (s *StringKey) PartitionID() int64 {
+func (s *StringKey) PartitionKey() int64 {
 	return int64(hash(s.value))
 }
 

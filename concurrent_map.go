@@ -15,8 +15,19 @@ type ConcurrentMap struct {
 // Partitionable is the interface which should be implemented by key type.
 // It is to define how to partition the entries.
 type Partitionable interface {
+	// Value is raw value of the key
 	Value() interface{}
-	PartitionID() int64
+
+	// PartitionKey is used for getting the partition to store the entry with the key.
+	// E.g. the key's hash could be used as its PartitionKey
+	// The partition for the key is partitions[(PartitionKey % m.numOfBlockets)]
+	//
+	// 1 Why not provide the default hash function for partition?
+	// Ans: As you known, the partition solution would impact the performance significantly.
+	// The proper partition solution balances the access to the different partitions and
+	// avoid of the hot partition. The access mode highly relates to your business.
+	// So, the better partition solution would just be designed according to your business.
+	PartitionKey() int64
 }
 
 type innerMap struct {
@@ -62,7 +73,7 @@ func CreateConcurrentMap(numOfPartitions int) *ConcurrentMap {
 }
 
 func (m *ConcurrentMap) getPartition(key Partitionable) *innerMap {
-	partitionID := key.PartitionID() % int64(m.numOfBlockets)
+	partitionID := key.PartitionKey() % int64(m.numOfBlockets)
 	return (*innerMap)(m.partitions[partitionID])
 }
 
