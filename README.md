@@ -10,3 +10,7 @@ This project is to provide a thread-safe map which is Java ConcurrentMap's GO ve
 The following test is about 100 Goroutines writing and 100 Groutines reading. The test is executed on Macbook (macOS 10.13.2, 2 core (2.3G Intel Core i5), 8G LPDDR3)
 
 ![image](https://github.com/easierway/concurrent_map/blob/master/map_benchmark.png)
+
+### FAQ
+1 Why not provide the default hash function for partition?
+Ans: As you known, the partition solution would impact the performance significantly. The proper partition solution balances the access to the different partitions and avoid of the hot partition. The access mode highly relates to your business. So, the better partition solution would just be designed according to your business.
