@@ -5,7 +5,7 @@ import (
 )
 
 // ConcurrentMap is a thread safe map collection with better performance.
-// The backend map enties are separated into the different partitions.
+// The backend map entries are separated into the different partitions.
 // Threads can access the different partitions safely without lock.
 type ConcurrentMap struct {
 	partitions    []*innerMap

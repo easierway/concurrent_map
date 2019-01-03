@@ -50,7 +50,7 @@ func TestInt64KeyBasicOPs(t *testing.T) {
 	}
 }
 
-func TestInCurrenctEnv(t *testing.T) {
+func TestInCurrentEnv(t *testing.T) {
 	m := CreateConcurrentMap(99)
 	go func() {
 
