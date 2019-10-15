@@ -76,3 +76,26 @@ func TestInCurrentEnv(t *testing.T) {
 	}()
 	time.Sleep(time.Second * 1)
 }
+
+
+func TestNegativeInt64KeyBasicOPs(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		testV := rand.Int63n(1024)
+		cm := CreateConcurrentMap(99)
+		var key int64 = -1023
+		v, ok := cm.Get(I64Key(key))
+		if v != nil || ok != false {
+			t.Error("init/get failed")
+		}
+		cm.Set(I64Key(key), testV)
+		v, ok = cm.Get(I64Key(key))
+		if v.(int64) != testV || ok != true {
+			t.Error("set/get failed.")
+		}
+		cm.Del(I64Key(key))
+		v, ok = cm.Get(I64Key(key))
+		if v != nil || ok != false {
+			t.Error("del failed")
+		}
+	}
+}

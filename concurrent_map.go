@@ -74,6 +74,9 @@ func CreateConcurrentMap(numOfPartitions int) *ConcurrentMap {
 
 func (m *ConcurrentMap) getPartition(key Partitionable) *innerMap {
 	partitionID := key.PartitionKey() % int64(m.numOfBlockets)
+	if partitionID < 0 {
+		partitionID = -partitionID
+	}
 	return (*innerMap)(m.partitions[partitionID])
 }
 
