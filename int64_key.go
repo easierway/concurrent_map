@@ -4,17 +4,17 @@ type Int64Key struct {
 	value int64
 }
 
-// PartitionID is created by string's hash
+// PartitionKey is value of itself
 func (i *Int64Key) PartitionKey() int64 {
 	return i.value
 }
 
-// Value is the raw string
+// Value is the int64
 func (i *Int64Key) Value() interface{} {
 	return i.value
 }
 
-// StrKey is to convert a string to StringKey
+// I64Key is to convert a int64 to Int64Key
 func I64Key(key int64) *Int64Key {
 	return &Int64Key{key}
 }
